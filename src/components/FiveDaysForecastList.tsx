@@ -5,42 +5,47 @@ import { getForecast } from "../utils/api";
 import DayForecastItem from "./DayForecastItem";
 
 type FiveDaysForecastListProps = {
-  currentLocation: CurrentWeatherResponse;
+  currentLocation: CurrentWeatherResponse | undefined;
 };
 
-function FiveDaysForecastList({
-  currentLocation: city,
-}: FiveDaysForecastListProps) {
-  const [order, setOrder] = useState<"asc" | "desc">("desc");
-  const { data, status, error } = useQuery({
-    queryKey: ["forecast", city.name],
+type ForecastListSort = "asc" | "desc";
+
+const processData = (forecastIntervals: ForecastEntry[]) => {
+  let dailyData = [];
+  let lastDate = null;
+
+  for (const forecast of forecastIntervals) {
+    const date = new Date(forecast.dt * 1000);
+    const forecastDate = date.toISOString().split("T")[0];
+    const forecastHour = date.getUTCHours();
+
+    if (forecastDate !== lastDate && forecastHour === 12) {
+      dailyData.push(forecast);
+      lastDate = forecastDate;
+    }
+  }
+
+  return dailyData;
+};
+
+function FiveDaysForecastList({ currentLocation }: FiveDaysForecastListProps) {
+  const [order, setOrder] = useState<ForecastListSort>("desc");
+  const { data, status, fetchStatus, error } = useQuery({
+    queryKey: ["forecast", currentLocation?.name],
     queryFn: () =>
       getForecast({
-        // fine to use the ! as long as enabled checks on currentWeather on having a value
-        lat: city.coord.lat,
-        lon: city.coord.lon,
+        lat: currentLocation!.coord.lat,
+        lon: currentLocation!.coord.lon,
       }),
+    enabled: currentLocation != null,
   });
 
-  const forecastIntervals = data ? data.list : [];
+  const forecastIntervals = data?.list ?? [];
 
-  const dailyForecasts = useMemo(() => {
-    let dailyData = [];
-    let lastDate = null;
-
-    for (const forecast of forecastIntervals) {
-      const date = new Date(forecast.dt * 1000);
-      const forecastDate = date.toISOString().split("T")[0];
-      const forecastHour = date.getUTCHours();
-
-      if (forecastDate !== lastDate && forecastHour === 12) {
-        dailyData.push(forecast);
-        lastDate = forecastDate;
-      }
-    }
-
-    return dailyData;
-  }, [forecastIntervals]);
+  const dailyForecasts = useMemo(
+    () => processData(forecastIntervals),
+    [forecastIntervals]
+  );
 
   const sortedDailyForecasts = useMemo(() => {
     return [...dailyForecasts].sort((a, b) =>
@@ -49,33 +54,32 @@ function FiveDaysForecastList({
   }, [dailyForecasts, order]);
 
   if (status === "error") {
-    return <Text>Error</Text>;
+    return <Text>{`Error: ${error}`}</Text>;
   }
 
-  if (status === "loading") {
+  if (status === "loading" && fetchStatus !== "idle") {
     return <Text>Loading...</Text>;
   }
 
   return (
     <View>
-      <Button
-        title="Toggle"
-        onPress={() => {
-          if (order === "asc") {
-            setOrder("desc");
-          } else {
-            setOrder("asc");
-          }
-        }}
-      />
-      <FlatList
-        data={sortedDailyForecasts}
-        renderItem={({ item }) => <DayForecastItem item={item} />}
-        keyExtractor={(item) => item.dt_txt}
-        extraData={order}
-      />
+      {data && (
+        <>
+          <Button title="Toggle" onPress={handleToggleOrder} />
+          <FlatList
+            data={sortedDailyForecasts}
+            renderItem={({ item }) => <DayForecastItem item={item} />}
+            keyExtractor={(item) => item.dt_txt}
+            extraData={order}
+          />
+        </>
+      )}
     </View>
   );
+
+  function handleToggleOrder() {
+    setOrder((currentOrder) => (currentOrder === "asc" ? "desc" : "asc"));
+  }
 }
 
 export default FiveDaysForecastList;

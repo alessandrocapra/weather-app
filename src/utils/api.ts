@@ -48,3 +48,22 @@ export async function getForecast({
     throw error;
   }
 }
+
+export async function getLocationList({
+  city,
+}: GetCurrentWeatherProps): Promise<GeocodeLocation[]> {
+  try {
+    const response = await fetch(
+      `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=6019bd99eb84923645be2ba229c5a99a`
+    );
+
+    if (!response.ok) {
+      throw new Error(`${response.status}: ${response.statusText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("An error occurred while fetching the forecast:", error);
+    throw error;
+  }
+}
