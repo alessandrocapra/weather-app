@@ -1,29 +1,24 @@
-import { Button, Pressable, TextInput, View } from "react-native";
+import { Pressable, TextInput, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import SearchResultList from "./SearchResultList";
+import { useDispatch } from "react-redux";
+import { setShouldFetch } from "../redux/shouldFetch/shouldFetchSlice";
 
-type SearchLocationProps = {
-  location: string;
-  setLocation: Dispatch<SetStateAction<string>>;
-  setShouldFetchLocation: Dispatch<SetStateAction<boolean>>;
-};
+function SearchLocation() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
 
-function SearchLocation({
-  location,
-  setLocation,
-  setShouldFetchLocation,
-}: SearchLocationProps) {
   return (
-    <View className="relative">
-      <View className="flex-row relative">
+    <View className="relative z-10">
+      <View className="flex-row">
         <TextInput
-          value={location}
-          onChangeText={handleLocationChange}
+          value={searchTerm}
+          onChangeText={setSearchTerm}
           placeholder="Type city name..."
           className="h-12 flex-1 border border-gray-500 rounded px-4 pr-12 "
         />
-        {location && (
+        {searchTerm && (
           <Pressable
             onPress={handleResetText}
             className="absolute right-0 bottom-0 top-0 p-3"
@@ -32,21 +27,13 @@ function SearchLocation({
           </Pressable>
         )}
       </View>
-      <Button
-        title="Search"
-        onPress={() => setShouldFetchLocation(true)}
-        disabled={!location.length}
-      />
-      <SearchResultList location={location} />
+      <SearchResultList query={searchTerm} setQuery={setSearchTerm} />
     </View>
   );
-  function handleLocationChange(value: string) {
-    setLocation(value);
-    setShouldFetchLocation(false);
-  }
+
   function handleResetText() {
-    setLocation("");
-    setShouldFetchLocation(false);
+    setSearchTerm("");
+    dispatch(setShouldFetch(false));
   }
 }
 

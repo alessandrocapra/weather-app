@@ -1,36 +1,37 @@
 import { useQuery } from "@tanstack/react-query";
-import { FlatList, Text, View } from "react-native";
+import { Dispatch, SetStateAction } from "react";
+import { FlatList, Text } from "react-native";
 import { getLocationList } from "../utils/api";
 import SearchResultItem from "./SearchResultItem";
 
 type SearchResultListProps = {
-  location: string;
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
 };
 
-function SearchResultList({ location }: SearchResultListProps) {
-  const { data: locationsList, fetchStatus, status } = useQuery({
-    queryKey: ["locations", location],
-    queryFn: () => getLocationList({ city: location }),
-    enabled: location.length >= 3,
+function SearchResultList({ query, setQuery }: SearchResultListProps) {
+  const { data: locationsList, status } = useQuery({
+    queryKey: ["locations", query],
+    queryFn: () => getLocationList({ city: query }),
+    enabled: query.length >= 3,
   });
 
   if (status === "error") {
     return <Text>Cannot load locations. Please try again later</Text>;
   }
 
-  if (status === "loading" && fetchStatus !== "idle") {
-    return <Text>Loading...</Text>;
-  }
-
   return (
-    <View className="absolute top-12 w-full">
-      {locationsList && (
+    <>
+      {locationsList && query.length > 0 && (
         <FlatList
           data={locationsList}
-          renderItem={({ item }) => <SearchResultItem locationResult={item} />}
+          className="absolute top-12 left-0 right-0 border rounded-md"
+          renderItem={({ item }) => (
+            <SearchResultItem locationResult={item} setQuery={setQuery} />
+          )}
         />
       )}
-    </View>
+    </>
   );
 }
 
