@@ -1,16 +1,26 @@
-import { Text, View } from "react-native";
-import { convertEpochToReadableDate } from "../utils/dates";
+import { Image, Text, View } from "react-native";
+import { getDayNameFromDate } from "../utils/dates";
+import { SummaryForecastDay } from "../utils/helpers";
+import { formatTemperature } from "../utils/strings";
 
 type DayForecastItemProps = {
-  item: ForecastEntry;
+  item: SummaryForecastDay;
 };
 
 function DayForecastItem({ item }: DayForecastItemProps) {
   return (
-    <View className="p-4">
-      <Text>{convertEpochToReadableDate(item.dt)}</Text>
-      <Text>{`${item.main.temp}C`}</Text>
-      <Text>{`${item.main.feels_like}C`}</Text>
+    <View className="py-1 flex-row items-center">
+      <Text className="text-lg flex-1">{getDayNameFromDate(item.date)}</Text>
+      <Image
+        source={{
+          uri: `https://openweathermap.org/img/wn/${item.mostFrequentWeatherIcon}@2x.png`,
+        }}
+        style={{ width: 60, height: 60 }}
+        className="mr-4"
+      />
+      <Text>{`${formatTemperature(item.temp_min)} / ${formatTemperature(
+        item.temp_max
+      )}`}</Text>
     </View>
   );
 }

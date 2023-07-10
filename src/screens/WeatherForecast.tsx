@@ -1,36 +1,27 @@
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { Button, Pressable, SafeAreaView, Text, View } from "react-native";
-import { getCurrentWeather } from "../utils/api";
+import { SafeAreaView, Text, View } from "react-native";
+import { useSelector } from "react-redux";
 import FiveDaysForecastList from "../components/FiveDaysForecastList";
 import SearchLocation from "../components/SearchLocation";
 import TodayWeather from "../components/TodayWeather";
+import { selectLocation } from "../redux/location/locationSelector";
 
 function WeatherForecast() {
-  const [location, setLocation] = useState("");
-  const [shouldFetch, setShouldFetch] = useState(false);
-  const {
-    data: currentWeather,
-    status: currentWeatherStatus,
-    error: currentWeatherError,
-  } = useQuery({
-    queryKey: ["current_weather", location],
-    queryFn: () => getCurrentWeather({ city: location }),
-    enabled: shouldFetch,
-  });
+  const location = useSelector(selectLocation);
 
   return (
     <SafeAreaView>
-      <View className="p-4">
-        <SearchLocation
-          location={location}
-          setLocation={setLocation}
-          setShouldFetchLocation={setShouldFetch}
-        />
-        <View>
-          <TodayWeather location={location} shouldFetch={shouldFetch} />
-          <FiveDaysForecastList currentLocation={currentWeather} />
-        </View>
+      <View className="p-4 h-full">
+        <SearchLocation />
+        {location.name !== "" ? (
+          <>
+            <TodayWeather />
+            <FiveDaysForecastList />
+          </>
+        ) : (
+          <View className="flex-col flex-1 justify-center items-center">
+            <Text className="text-3xl">Placeholder image</Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );

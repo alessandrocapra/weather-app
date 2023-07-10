@@ -1,55 +1,41 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { Button, FlatList, Text, View } from "react-native";
+import { FlatList, Pressable, Text, View } from "react-native";
+import { useSelector } from "react-redux";
+import { selectLocation } from "../redux/location/locationSelector";
 import { getForecast } from "../utils/api";
 import DayForecastItem from "./DayForecastItem";
-
-type FiveDaysForecastListProps = {
-  currentLocation: CurrentWeatherResponse | undefined;
-};
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { parseWeatherData } from "../utils/helpers";
 
 type ForecastListSort = "asc" | "desc";
 
-const processData = (forecastIntervals: ForecastEntry[]) => {
-  let dailyData = [];
-  let lastDate = null;
-
-  for (const forecast of forecastIntervals) {
-    const date = new Date(forecast.dt * 1000);
-    const forecastDate = date.toISOString().split("T")[0];
-    const forecastHour = date.getUTCHours();
-
-    if (forecastDate !== lastDate && forecastHour === 12) {
-      dailyData.push(forecast);
-      lastDate = forecastDate;
-    }
-  }
-
-  return dailyData;
-};
-
-function FiveDaysForecastList({ currentLocation }: FiveDaysForecastListProps) {
+function FiveDaysForecastList() {
   const [order, setOrder] = useState<ForecastListSort>("desc");
-  const { data, status, fetchStatus, error } = useQuery({
-    queryKey: ["forecast", currentLocation?.name],
+  const location = useSelector(selectLocation);
+
+  const { data, status, error } = useQuery({
+    queryKey: ["forecast", location],
     queryFn: () =>
       getForecast({
-        lat: currentLocation!.coord.lat,
-        lon: currentLocation!.coord.lon,
+        lat: location.lat,
+        lon: location.lon,
       }),
-    enabled: currentLocation != null,
+    enabled: location != null,
   });
 
   const forecastIntervals = data?.list ?? [];
 
   const dailyForecasts = useMemo(
-    () => processData(forecastIntervals),
+    () => parseWeatherData(forecastIntervals),
     [forecastIntervals]
   );
 
   const sortedDailyForecasts = useMemo(() => {
     return [...dailyForecasts].sort((a, b) =>
-      order === "desc" ? a.dt - b.dt : b.dt - a.dt
+      order === "desc"
+        ? Date.parse(a.date) - Date.parse(b.date)
+        : Date.parse(b.date) - Date.parse(a.date)
     );
   }, [dailyForecasts, order]);
 
@@ -57,24 +43,41 @@ function FiveDaysForecastList({ currentLocation }: FiveDaysForecastListProps) {
     return <Text>{`Error: ${error}`}</Text>;
   }
 
-  if (status === "loading" && fetchStatus !== "idle") {
+  if (status === "loading") {
     return <Text>Loading...</Text>;
   }
 
+  console.log("data: ", data);
+  console.log("sorted: ", sortedDailyForecasts);
+
   return (
-    <View>
+    <>
       {data && (
         <>
-          <Button title="Toggle" onPress={handleToggleOrder} />
+          <View className="flex-row justify-between items-center">
+            <Text className="text-lg uppercase text-zinc-400">
+              5 days forecast
+            </Text>
+            <Pressable onPress={handleToggleOrder}>
+              <MaterialCommunityIcons
+                name={
+                  order === "asc"
+                    ? "sort-clock-descending-outline"
+                    : "sort-clock-ascending-outline"
+                }
+                size={32}
+              />
+            </Pressable>
+          </View>
           <FlatList
             data={sortedDailyForecasts}
             renderItem={({ item }) => <DayForecastItem item={item} />}
-            keyExtractor={(item) => item.dt_txt}
+            keyExtractor={(item) => item.date}
             extraData={order}
           />
         </>
       )}
-    </View>
+    </>
   );
 
   function handleToggleOrder() {
