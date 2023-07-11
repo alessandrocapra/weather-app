@@ -1,4 +1,4 @@
-type CurrentWeatherResponse = {
+export type CurrentWeatherResponse = {
   base: string;
   clouds: {
     all: number;
@@ -41,7 +41,7 @@ type CurrentWeatherResponse = {
   };
 };
 
-type ForecastEntry = {
+export type ForecastEntry = {
   dt: number;
   main: {
     temp: number;
@@ -79,7 +79,7 @@ type ForecastEntry = {
   dt_txt: string;
 };
 
-type ForecastResponse = {
+export type ForecastResponse = {
   cod: string;
   message: number;
   cnt: number;
@@ -99,7 +99,7 @@ type ForecastResponse = {
   };
 };
 
-type GeocodeLocation = {
+export type GeocodeLocation = {
   name: string;
   local_names: Record<string, string>;
   lat: number;
