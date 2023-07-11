@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { GeocodeLocation } from "../../utils/api.type";
 
 const initialState: GeocodeLocation = {
   name: "",

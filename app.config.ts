@@ -27,6 +27,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     favicon: "./assets/favicon.png",
   },
   extra: {
-    storybookEnabled: process.env.STORYBOOK_ENABLED,
+    WEATHER_API_KEY: process.env.WEATHER_API_KEY,
   },
 });

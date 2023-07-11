@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { Pressable, Text } from "react-native";
 import { useDispatch } from "react-redux";
 import { setLocation } from "../redux/location/locationSlice";
+import { GeocodeLocation } from "../utils/api.type";
 
 type SearchResultItemProps = {
   locationResult: GeocodeLocation;
@@ -15,10 +16,11 @@ function SearchResultItem({ locationResult, setQuery }: SearchResultItemProps) {
 
   return (
     <Pressable
+      accessibilityLabel="press search result"
       onPress={handleSearchResultItemPress}
       className="p-4 bg-white border-b border-b-gray-500"
     >
-      <Text>{`${name} (${state}, ${country})`}</Text>
+      <Text accessibilityLabel="search result">{`${name} (${state}, ${country})`}</Text>
     </Pressable>
   );
 
