@@ -47,9 +47,6 @@ function FiveDaysForecastList() {
     return <Text>Loading...</Text>;
   }
 
-  console.log("data: ", data);
-  console.log("sorted: ", sortedDailyForecasts);
-
   return (
     <>
       {data && (
