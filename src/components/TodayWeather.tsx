@@ -13,9 +13,6 @@ function TodayWeather() {
     queryFn: () => getCurrentWeather({ city: location.name }),
   });
 
-  console.log("Data: ", data);
-  console.log("Status: ", status);
-
   if (status === "error") {
     return <Text>Error</Text>;
   }
