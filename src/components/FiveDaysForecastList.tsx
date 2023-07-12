@@ -16,6 +16,8 @@ function FiveDaysForecastList() {
   const [order, setOrder] = useState<ForecastListSort>("desc");
   const location = useSelector(selectLocation);
 
+  console.log("location in 5 days: ", JSON.stringify(location));
+
   const { data, status } = useQuery({
     queryKey: ["forecast", location],
     queryFn: () =>
@@ -25,9 +27,6 @@ function FiveDaysForecastList() {
       }),
     enabled: location != null,
   });
-
-  console.log("5Days status: ", status);
-  console.log("location: ", location);
 
   const forecastIntervals = data?.list ?? [];
 

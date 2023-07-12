@@ -12,9 +12,11 @@ function TodayWeather() {
 
   const { data, status } = useQuery({
     queryKey: ["current_weather", location],
-    // using the English name to avoid issues with Arabic entries
+    // using the English name to avoid issues with entries in different alphabets
     queryFn: () =>
-      getCurrentWeather({ city: location.local_names["en"] ?? location.name }),
+      getCurrentWeather({
+        city: location.local_names?.["en"] ?? location.name,
+      }),
   });
 
   if (status === "error") {
