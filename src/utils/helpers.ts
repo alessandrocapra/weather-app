@@ -1,3 +1,5 @@
+import { ForecastEntry } from "./api.type";
+
 export type SummaryForecastDay = {
   date: string;
   mostFrequentWeather: string;

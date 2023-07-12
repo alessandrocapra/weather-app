@@ -1,12 +1,4 @@
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { Keyboard, Pressable, TextInput, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import SearchResultList from "./SearchResultList";
