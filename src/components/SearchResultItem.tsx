@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
 import { Pressable, Text } from "react-native";
 import { useDispatch } from "react-redux";
@@ -11,6 +12,7 @@ type SearchResultItemProps = {
 
 function SearchResultItem({ locationResult, setQuery }: SearchResultItemProps) {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const { state, name, country } = locationResult;
   const locationString = `📍 ${name} ${state ? `(${state},${country})` : `(${country})`
@@ -27,6 +29,8 @@ function SearchResultItem({ locationResult, setQuery }: SearchResultItemProps) {
 
   function handleSearchResultItemPress() {
     dispatch(setLocation(locationResult));
+    queryClient.invalidateQueries({ queryKey: ["forecast"] });
+    queryClient.invalidateQueries({ queryKey: ["current_weather"] });
     setQuery("");
   }
 }
