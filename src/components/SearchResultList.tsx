@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { getLocationList } from "../utils/api";
 import { GeocodeLocation } from "../utils/api.type";
 import Error from "./Error";
@@ -16,6 +16,7 @@ function SearchResultList({ query, setQuery }: SearchResultListProps) {
   const [previousLocationsList, setPreviousLocationsList] = useState<
     GeocodeLocation[]
   >([]);
+
   const {
     data: locationsList,
     isFetching,
@@ -42,24 +43,25 @@ function SearchResultList({ query, setQuery }: SearchResultListProps) {
   }
 
   if (query.length >= 3 && isFetching) {
-    // return <Text>Loading...</Text>
     return <SearchResultListSkeleton />;
   }
 
   return (
-    <>
+    <View
+      accessibilityLabel="search result list container"
+      className="absolute top-14 left-0 right-0 rounded-md rounded-t-none shadow-sm"
+    >
       {displayedList && query.length > 0 && (
         <FlatList
           accessibilityLabel="search result list"
           data={locationsList}
-          className="absolute top-14 left-0 right-0 rounded-md rounded-t-none shadow-sm"
           renderItem={({ item }) => (
             <SearchResultItem locationResult={item} setQuery={setQuery} />
           )}
           keyboardShouldPersistTaps="always"
         />
       )}
-    </>
+    </View>
   );
 }
 

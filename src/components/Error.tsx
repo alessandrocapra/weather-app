@@ -9,7 +9,9 @@ function Error({ message = "We are investigating the issue" }: ErrorProps) {
     <View className="flex-col justify-center items-center p-12 gap-2">
       <Text className="text-4xl">❌</Text>
       <Text className="text-2xl font-bold">Error</Text>
-      <Text className="text-lg text-center">{message}</Text>
+      <Text className="text-lg text-center" accessibilityLabel="error message">
+        {message}
+      </Text>
     </View>
   );
 }
