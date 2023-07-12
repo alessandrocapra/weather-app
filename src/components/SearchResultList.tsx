@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList } from "react-native";
 import { getLocationList } from "../utils/api";
+import Error from "./Error";
 import SearchResultItem from "./SearchResultItem";
 
 type SearchResultListProps = {
@@ -17,7 +18,7 @@ function SearchResultList({ query, setQuery }: SearchResultListProps) {
   });
 
   if (status === "error") {
-    return <Text>Cannot load locations. Please try again later</Text>;
+    return <Error message="Cannot load locations. Please try again later" />;
   }
 
   return (
@@ -25,7 +26,7 @@ function SearchResultList({ query, setQuery }: SearchResultListProps) {
       {locationsList && query.length > 0 && (
         <FlatList
           data={locationsList}
-          className="absolute top-12 left-0 right-0 border rounded-md"
+          className="absolute top-14 left-0 right-0 rounded-md rounded-t-none shadow-sm"
           renderItem={({ item }) => (
             <SearchResultItem locationResult={item} setQuery={setQuery} />
           )}

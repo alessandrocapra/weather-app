@@ -16,7 +16,7 @@ function SearchLocation() {
           value={searchTerm}
           onChangeText={setSearchTerm}
           placeholder="Type city name..."
-          className="h-12 flex-1 border border-gray-500 rounded px-4 pr-12 "
+          className="h-12 flex-1 rounded px-4 pr-12 bg-white shadow-sm"
         />
         {searchTerm && (
           <Pressable

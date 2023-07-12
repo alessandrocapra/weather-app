@@ -9,7 +9,7 @@ type DayForecastItemProps = {
 
 function DayForecastItem({ item }: DayForecastItemProps) {
   return (
-    <View className="py-1 flex-row items-center">
+    <View className="py-1 px-4 flex-row items-center bg-slate-50 rounded-md mb-2 shadow-sm">
       <Text className="text-lg flex-1">{getDayNameFromDate(item.date)}</Text>
       <Image
         source={{
