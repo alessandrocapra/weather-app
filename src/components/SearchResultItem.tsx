@@ -13,14 +13,15 @@ function SearchResultItem({ locationResult, setQuery }: SearchResultItemProps) {
   const dispatch = useDispatch();
 
   const { state, name, country } = locationResult;
-
+  const locationString = `📍 ${name} ${state ? `(${state},${country})` : `(${country})`
+    }`;
   return (
     <Pressable
       accessibilityLabel="press search result"
       onPress={handleSearchResultItemPress}
-      className="p-4 bg-white border-b border-b-gray-500"
+      className="p-4 bg-white border-b border-b-gray-200"
     >
-      <Text accessibilityLabel="search result">{`📍 ${name} (${state}, ${country})`}</Text>
+      <Text accessibilityLabel="search result">{locationString}</Text>
     </Pressable>
   );
 

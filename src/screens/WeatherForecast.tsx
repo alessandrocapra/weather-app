@@ -1,6 +1,7 @@
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { useSelector } from "react-redux";
 import FiveDaysForecastList from "../components/FiveDaysForecastList";
+import Heading from "../components/Heading";
 import SearchLocation from "../components/SearchLocation";
 import TodayWeather from "../components/TodayWeather";
 import WelcomeMessage from "../components/WelcomeMessage";
@@ -11,14 +12,15 @@ function WeatherForecast() {
   const isLocationDefined = location.name !== "";
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-slate-100">
       <View className="p-4 h-full">
+        <Heading>Weather</Heading>
         <SearchLocation />
         {isLocationDefined ? (
-          <>
+          <View className="pt-4">
             <TodayWeather />
             <FiveDaysForecastList />
-          </>
+          </View>
         ) : (
           <WelcomeMessage />
         )}
