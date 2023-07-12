@@ -54,6 +54,7 @@ function SearchResultList({ query, setQuery }: SearchResultListProps) {
           renderItem={({ item }) => (
             <SearchResultItem locationResult={item} setQuery={setQuery} />
           )}
+          keyboardShouldPersistTaps="always"
         />
       )}
     </>

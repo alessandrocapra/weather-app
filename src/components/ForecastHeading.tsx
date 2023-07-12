@@ -15,7 +15,7 @@ function ForecastHeading({ order, setOrder }: ForecastHeadingProps) {
 
   return (
     <View className="flex-row justify-between items-center">
-      <Text className="text-md uppercase text-zinc-400">5 days forecast</Text>
+      <Text className="text-md uppercase text-zinc-400">5 days forecast - {location.name}</Text>
       <Pressable onPress={handleToggleOrder} disabled={!location} className="p-2 bg-white shadow-sm rounded-full">
         <MaterialCommunityIcons
           name={
@@ -23,7 +23,7 @@ function ForecastHeading({ order, setOrder }: ForecastHeadingProps) {
               ? "sort-clock-descending-outline"
               : "sort-clock-ascending-outline"
           }
-          size={24}
+          size={22}
           color={!location ? "gray" : "black"}
         />
       </Pressable>

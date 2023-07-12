@@ -16,8 +16,6 @@ function FiveDaysForecastList() {
   const [order, setOrder] = useState<ForecastListSort>("desc");
   const location = useSelector(selectLocation);
 
-  console.log("location in 5 days: ", JSON.stringify(location));
-
   const { data, status } = useQuery({
     queryKey: ["forecast", location],
     queryFn: () =>
@@ -71,7 +69,7 @@ function FiveDaysForecastList() {
             renderItem={({ item }) => <DayForecastItem item={item} />}
             keyExtractor={(item) => item.date}
             extraData={order}
-            className="pt-4"
+            className="bg-slate-50 rounded-md shadow-sm mt-4"
           />
         </View>
       )}

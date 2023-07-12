@@ -1,6 +1,14 @@
-import { Pressable, TextInput, View } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchResultList from "./SearchResultList";
 import { useDispatch } from "react-redux";
 import { setShouldFetch } from "../redux/shouldFetch/shouldFetchSlice";
@@ -8,6 +16,12 @@ import { setShouldFetch } from "../redux/shouldFetch/shouldFetchSlice";
 function SearchLocation() {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      Keyboard.dismiss();
+    }
+  }, [searchTerm]);
 
   return (
     <View className="relative z-10">
