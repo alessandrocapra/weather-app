@@ -1,4 +1,8 @@
-import { CurrentWeatherResponse, GeocodeLocation } from "./api.type";
+import {
+  CurrentWeatherResponse,
+  ForecastResponse,
+  GeocodeLocation,
+} from "./api.type";
 
 export const mockCurrentWeatherResponse: CurrentWeatherResponse = {
   coord: {
@@ -43,6 +47,63 @@ export const mockCurrentWeatherResponse: CurrentWeatherResponse = {
   id: 2643743,
   name: "London",
   cod: 200,
+};
+
+export const mockForecastResponse: ForecastResponse = {
+  cod: "200",
+  message: 0,
+  cnt: 1,
+  list: [
+    {
+      dt: 1625760000,
+      main: {
+        temp: 20,
+        feels_like: 21,
+        temp_min: 18,
+        temp_max: 22,
+        pressure: 1012,
+        sea_level: 1012,
+        grnd_level: 1009,
+        humidity: 80,
+        temp_kf: 1,
+      },
+      weather: [
+        {
+          id: 801,
+          main: "Clouds",
+          description: "few clouds",
+          icon: "02d",
+        },
+      ],
+      clouds: {
+        all: 20,
+      },
+      wind: {
+        speed: 4.12,
+        deg: 322,
+        gust: 5.36,
+      },
+      visibility: 10000,
+      pop: 0.0,
+      sys: {
+        pod: "d",
+      },
+      dt_txt: "2023-07-12 12:00:00",
+    },
+  ],
+  city: {
+    id: 2643743,
+    name: "London",
+    coord: {
+      lat: 51.5072,
+      lon: -0.1276,
+    },
+    country: "GB",
+    population: 8787892,
+    timezone: 0,
+    sunrise: 1625718264,
+    sunset: 1625775529,
+  },
 };
 
 export const mockGeocodingResponse: GeocodeLocation[] = [

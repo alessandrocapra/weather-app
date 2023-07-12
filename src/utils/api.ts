@@ -4,6 +4,7 @@ import {
   GeocodeLocation,
 } from "./api.type";
 import Constants from "expo-constants";
+import axios from "axios";
 
 export const CURRENT_WEATHER_BASE_URL =
   "http://api.openweathermap.org/data/2.5/weather";
@@ -32,13 +33,9 @@ function constructURL(baseUrl: string, queryParams: object) {
 
 async function fetchAPI(url: string): Promise<any> {
   try {
-    const response = await fetch(url);
+    const response = await axios.get(url);
 
-    if (!response.ok) {
-      throw new Error(`${response.status}: ${response.statusText}`);
-    }
-
-    return response.json();
+    return response.data;
   } catch (error) {
     console.error("An error occurred while fetching data from the API:", error);
     throw error;
