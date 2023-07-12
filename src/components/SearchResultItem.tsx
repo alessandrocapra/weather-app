@@ -20,7 +20,7 @@ function SearchResultItem({ locationResult, setQuery }: SearchResultItemProps) {
       onPress={handleSearchResultItemPress}
       className="p-4 bg-white border-b border-b-gray-500"
     >
-      <Text accessibilityLabel="search result">{`${name} (${state}, ${country})`}</Text>
+      <Text accessibilityLabel="search result">{`📍 ${name} (${state}, ${country})`}</Text>
     </Pressable>
   );
 
