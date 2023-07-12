@@ -3,24 +3,24 @@ import { useSelector } from "react-redux";
 import FiveDaysForecastList from "../components/FiveDaysForecastList";
 import SearchLocation from "../components/SearchLocation";
 import TodayWeather from "../components/TodayWeather";
+import WelcomeMessage from "../components/WelcomeMessage";
 import { selectLocation } from "../redux/location/locationSelector";
 
 function WeatherForecast() {
   const location = useSelector(selectLocation);
+  const isLocationDefined = location.name !== "";
 
   return (
     <SafeAreaView>
       <View className="p-4 h-full">
         <SearchLocation />
-        {location.name !== "" ? (
+        {isLocationDefined ? (
           <>
             <TodayWeather />
             <FiveDaysForecastList />
           </>
         ) : (
-          <View className="flex-col flex-1 justify-center items-center">
-            <Text className="text-3xl">Placeholder image</Text>
-          </View>
+          <WelcomeMessage />
         )}
       </View>
     </SafeAreaView>
