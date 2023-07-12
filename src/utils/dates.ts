@@ -19,7 +19,7 @@ export function getDayNameFromDate(dateString: string): string {
   if (currentFormatted === tomorrowFormatted) {
     return "Tomorrow";
   } else {
-    const formatter = new Intl.DateTimeFormat("en", { weekday: "short" });
+    const formatter = new Intl.DateTimeFormat("en", { weekday: "long" });
     return formatter.format(date);
   }
 }

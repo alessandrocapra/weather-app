@@ -32,29 +32,29 @@ function TodayWeather() {
   return (
     <>
       <View className="relative flex-col justify-center items-center py-4 mb-4 bg-white rounded-md shadow-sm">
-        <Text className="text-5xl font-thin">{data.name}</Text>
+        <Text className="text-3xl font-thin">{data.name}</Text>
         <View className="flex-row items-center">
           <Image
             source={{
               uri: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
             }}
-            style={{ width: 130, height: 130 }}
+            style={{ width: 100, height: 100 }}
             className="mr-4"
           />
-          <Text className="text-8xl">{`${formatTemperature(
+          <Text className="text-6xl pt-3">{`${formatTemperature(
             data.main.temp
           )}`}</Text>
         </View>
         <View className="flex-row"></View>
-        <Text className="text-xl capitalize text-gray-400">
+        <Text className="text-xl capitalize text-gray-400 pb-2">
           {data.weather[0].description}
         </Text>
         <View className="flex-row gap-3">
-          <Text className="text-xl">{`Max:${formatTemperature(
-            data.main.temp_max
-          )}`}</Text>
-          <Text className="text-xl">{`Min:${formatTemperature(
+          <Text className="text-md">{`Min:${formatTemperature(
             data.main.temp_min
+          )}`}</Text>
+          <Text className="text-md">{`Max:${formatTemperature(
+            data.main.temp_max
           )}`}</Text>
         </View>
       </View>

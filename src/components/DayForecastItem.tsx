@@ -9,7 +9,7 @@ type DayForecastItemProps = {
 
 function DayForecastItem({ item }: DayForecastItemProps) {
   return (
-    <View className="py-1 px-4 flex-row items-center bg-slate-50 rounded-md mb-2 shadow-sm">
+    <View className="px-4 flex-row items-center border-b border-b-gray-100">
       <Text className="text-lg flex-1">{getDayNameFromDate(item.date)}</Text>
       <Image
         source={{
@@ -18,7 +18,7 @@ function DayForecastItem({ item }: DayForecastItemProps) {
         style={{ width: 60, height: 60 }}
         className="mr-4"
       />
-      <Text>{`${formatTemperature(item.temp_min)} / ${formatTemperature(
+      <Text className="text-lg">{`${formatTemperature(item.temp_min)} / ${formatTemperature(
         item.temp_max
       )}`}</Text>
     </View>
