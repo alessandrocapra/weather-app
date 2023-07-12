@@ -21,15 +21,31 @@ const createStore = (): EnhancedStore => {
   });
 };
 
+const createMockQueryClient = () => {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+    logger: {
+      log: console.log,
+      warn: console.warn,
+      error: () => { },
+    },
+  });
+};
+
 const customRender = (
   ui: ReactElement,
   options?: CustomRenderOptions & { children?: ReactNode }
 ) => {
   const store = createStore();
+  const mockQueryClient = createMockQueryClient();
 
   const Wrapper: FC<AllTheProvidersProps> = ({ children }) => (
     <ReduxProvider store={store}>
-      <QueryClientProvider client={new QueryClient()}>
+      <QueryClientProvider client={mockQueryClient}>
         {children}
       </QueryClientProvider>
     </ReduxProvider>

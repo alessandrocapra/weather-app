@@ -8,7 +8,7 @@ import Animated, {
   AnimatedStyleProp,
 } from "react-native-reanimated";
 
-interface SkeletonLoaderProps {
+interface LoadingSkeletonProps {
   height: number;
   width: number;
   rounded?: boolean;
@@ -16,13 +16,13 @@ interface SkeletonLoaderProps {
   style?: AnimatedStyleProp<ViewStyle>;
 }
 
-const Skeleton: React.FC<SkeletonLoaderProps> = ({
+function LoadingSkeleton({
   height,
   width,
   rounded = false,
   fullWidth = false,
   style = { marginVertical: 5 },
-}) => {
+}: LoadingSkeletonProps) {
   const progress = useSharedValue(0);
 
   React.useEffect(() => {
@@ -46,6 +46,6 @@ const Skeleton: React.FC<SkeletonLoaderProps> = ({
   });
 
   return <Animated.View style={[boxStyles.box, animatedStyles, style]} />;
-};
+}
 
-export default Skeleton;
+export default LoadingSkeleton;

@@ -42,6 +42,7 @@ function SearchResultList({ query, setQuery }: SearchResultListProps) {
   }
 
   if (query.length >= 3 && isFetching) {
+    // return <Text>Loading...</Text>
     return <SearchResultListSkeleton />;
   }
 
@@ -49,6 +50,7 @@ function SearchResultList({ query, setQuery }: SearchResultListProps) {
     <>
       {displayedList && query.length > 0 && (
         <FlatList
+          accessibilityLabel="search result list"
           data={locationsList}
           className="absolute top-14 left-0 right-0 rounded-md rounded-t-none shadow-sm"
           renderItem={({ item }) => (

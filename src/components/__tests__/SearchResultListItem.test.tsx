@@ -12,7 +12,7 @@ describe("SearchResultListItem", () => {
     );
 
     expect(screen.getByLabelText("search result")).toHaveTextContent(
-      "London (England, GB)"
+      "📍 London (England,GB)"
     );
   });
 
