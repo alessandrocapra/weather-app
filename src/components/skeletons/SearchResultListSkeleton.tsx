@@ -3,7 +3,7 @@ import SearchResultItemSkeleton from "./SearchResultItemSkeleton";
 
 function SearchResultListSkeleton() {
   return (
-    <View className="absolute top-14 left-0 right-0 rounded-md border border-gray-300 ">
+    <View className="absolute top-14 left-0 right-0 rounded-md border border-gray-300" accessibilityLabel="search result list skeleton">
       <SearchResultItemSkeleton />
       <SearchResultItemSkeleton />
       <SearchResultItemSkeleton />

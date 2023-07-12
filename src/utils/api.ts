@@ -34,10 +34,8 @@ function constructURL(baseUrl: string, queryParams: object) {
 async function fetchAPI(url: string): Promise<any> {
   try {
     const response = await axios.get(url);
-
     return response.data;
   } catch (error) {
-    console.error("An error occurred while fetching data from the API:", error);
     throw error;
   }
 }
