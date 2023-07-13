@@ -33,7 +33,7 @@ function SearchResultList({ query, setQuery }: SearchResultListProps) {
     }
   }, [locationsList, status]);
 
-  let displayedList =
+  const displayedList =
     locationsList && locationsList.length > 0
       ? locationsList
       : previousLocationsList;

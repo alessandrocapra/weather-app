@@ -31,13 +31,9 @@ function constructURL(baseUrl: string, queryParams: object) {
   return `${baseUrl}?${params}`;
 }
 
-async function fetchAPI(url: string): Promise<any> {
-  try {
-    const response = await axios.get(url);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+async function fetchAPI<T>(url: string): Promise<T> {
+  const response = await axios.get<T>(url);
+  return response.data;
 }
 
 export async function getCurrentWeather({
@@ -47,7 +43,7 @@ export async function getCurrentWeather({
     q: city,
     units: "metric",
   });
-  return fetchAPI(url);
+  return fetchAPI<CurrentWeatherResponse>(url);
 }
 
 export async function getForecast({
@@ -55,12 +51,12 @@ export async function getForecast({
   lon,
 }: GetForecastProps): Promise<ForecastResponse> {
   const url = constructURL(FORECAST_BASE_URL, { lat, lon, units: "metric" });
-  return fetchAPI(url);
+  return fetchAPI<ForecastResponse>(url);
 }
 
 export async function getLocationList({
   city,
 }: GetCurrentWeatherProps): Promise<GeocodeLocation[]> {
   const url = constructURL(GEO_BASE_URL, { q: city, limit: 5 });
-  return fetchAPI(url);
+  return fetchAPI<GeocodeLocation[]>(url);
 }
