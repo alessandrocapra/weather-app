@@ -35,10 +35,10 @@ The stack used in this project includes:
 
 ### 📥 Installation
 
-1. Clone the repository to your local machine: `git clone <repository_link>`.
-2. Navigate into the directory: `cd <directory_name>`.
+1. Clone the repository to your local machine.
+2. Navigate into the directory: `cd weather-app`.
 3. Install the project dependencies: `npm install` or `yarn install`.
-4. Create a .env file in the root directory and add your API key: `REACT_NATIVE_WEATHER_API_KEY=your_api_key`. Ensure you replace `your_api_key` with the actual API key. The .env file is loaded into your shell automatically by direnv. Execute `direnv allow` in the same folder where .env file is to ensure proper loading of the environment variables.
+4. Create a .env file in the root directory and add your API key: `WEATHER_API_KEY=your_api_key`. Ensure you replace `your_api_key` with the actual API key. The .env file is loaded into your shell automatically by direnv. Execute `direnv allow` in the same folder where .env file is to ensure proper loading of the environment variables.
 
 ### 🎮 Usage
 
